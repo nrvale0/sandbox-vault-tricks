@@ -1,5 +1,15 @@
 version: '3'
+
 services:
+
+  consul:
+    image: consul:0.8.5
+    ports:
+      - "8080:8080"
+      - "8500:8500"
+      - "53:53"
+      - "53:53/udp"
+
   vault-enterprise0:
     build: docker/images/vault-enterprise
     image: vault-enterprise
@@ -7,6 +17,7 @@ services:
       - "8201:8200"
     links:
       - postgres
+      - consul
 
   vault-enterprise1:
     build: docker/images/vault-enterprise
@@ -15,6 +26,7 @@ services:
       - "8202:8200"
     links:
       - postgres
+      - consul
 
   vault-enterprise2:
     build: docker/images/vault-enterprise
@@ -23,3 +35,4 @@ services:
       - "8203:8200"
     links:
       - postgres
+      - consul

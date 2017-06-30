@@ -10,7 +10,15 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.network "forwarded_port", guest: 5050, host: 5050 # pgadmin4
   config.vm.network "forwarded_port", guest: 5432, host: 5432 # postgres
   config.vm.network "forwarded_port", guest: 8200, host: 8200 # vault
+  config.vm.network "forwarded_port", guest: 8201, host: 8201 # vault enterprise
+  config.vm.network "forwarded_port", guest: 8202, host: 8202 # vault enterprise
+  config.vm.network "forwarded_port", guest: 8203, host: 8203 # vault enterprise
+  config.vm.network "forwarded_port", guest: 8080, host: 8080 # consul ui
+  config.vm.network "forwarded_port", guest: 8500, host: 8500 # consul
+  config.vm.network "forwarded_port", guest: 53, host: 8053 # consul DNS (TCP)
+  config.vm.network "forwarded_port", guest: 53, host: 8053, protocol: "udp" # consul DNS (UDP)
   
+
   config.vm.provision "docker" do |docker|
     docker.pull_images "chef/inspec:latest"
   end

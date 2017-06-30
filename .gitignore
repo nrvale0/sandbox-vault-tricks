@@ -1,8 +1,9 @@
 \#*
+\.#*
 *~
 .vagrant
 .tmp
 *.log
-binaries/vault*
-binaries/consul*
-binaries/nomamd*
+**/binaries/vault*
+**/binaries/consul*
+**/binaries/nomamd*
