@@ -7,8 +7,7 @@ services:
     ports:
       - "8080:8080"
       - "8500:8500"
-      - "53:53"
-      - "53:53/udp"
+      - "8600:8600"
 
   vault-enterprise0:
     build: docker/images/vault-enterprise
