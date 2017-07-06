@@ -27,3 +27,6 @@ services:
       - "8200:8200"
     links:
       - postgres
+
+  healthz:
+    image: chef/inspec:latest
