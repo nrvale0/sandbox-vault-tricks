@@ -6,7 +6,7 @@ export VAULT_ADDR="http://127.0.0.1:8200/"
 
 clear
 
-printnf "\nMounting Vault database backend..."
+printf "\nMounting Vault database backend..."
 (set -x; vault mount database)
 
 printf "\nWriting the Postgres database backend config..."
@@ -19,8 +19,8 @@ printf "\nCreating a read-only policy to associate with credentials..."
 		db_name=postgresql \
 		creation_statements="CREATE ROLE \"{{name}}\" WITH LOGIN PASSWORD '{{password}}' VALID UNTIL '{{expiration}}'; \
 		GRANT SELECT ON ALL TABLES IN SCHEMA public TO \"{{name}}\";" \
-		default_ttl="1h" \
-    		max_ttl="24h")
+		default_ttl="1m" \
+    		max_ttl="1h")
 
 printf "\nRead the read-only account credentials..."
 (set -x ; vault read database/creds/readonly)
