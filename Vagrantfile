@@ -19,8 +19,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       docker.pull_images "chef/inspec"
     end
 
-    dockerhost.vm.provision "shell", path: "host/provision.sh"
-    dockerhost.vm.provision "shell", path: "host/validate.sh"
+    dockerhost.vm.provision "shell", path: "vms/dockerhost/provision.sh"
+    dockerhost.vm.provision "shell", path: "vms/dockerhost/validate.sh"
   end
 
   config.vm.define "ad", autostart: false do |ad|
