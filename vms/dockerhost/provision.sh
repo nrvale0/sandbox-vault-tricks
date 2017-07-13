@@ -9,6 +9,9 @@ echo "Provision the Docker host..."
 echo "Installing packages..."
 (set -x ; apt-get update && apt-get install -y git)
 
+echo "Installing InSpec for system validation...."
+(set -x ; curl https://omnitruck.chef.io/install.sh | sudo bash -s -- -P inspec)
+
 echo "Make dockerd available on all tcp/2375 on all interfaces..."
 (set -x ;
   mkdir -p /etc/systemd/system/docker.service.d ;
@@ -18,10 +21,5 @@ echo "Make dockerd available on all tcp/2375 on all interfaces..."
 
 echo "Installing Docker Compose..."
 (set -x ; 
- wget -q -O /usr/local/bin/docker-compose -c https://github.com/docker/compose/releases/download/1.14.0/docker-compose-Linux-x86_64 ;
+ wget -c -q -O /usr/local/bin/docker-compose -c https://github.com/docker/compose/releases/download/1.14.0/docker-compose-Linux-x86_64 ;
  chmod +x /usr/local/bin/docker-compose)
-
-echo "Launching Services via Docker Compose..."
-(set -x ;
- cd /vagrant/docker/compose/vault-enterprise ;
- docker-compose up -d --build)

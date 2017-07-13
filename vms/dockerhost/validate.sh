@@ -2,7 +2,5 @@
 
 set -eu
 
-echo "Validate the Docker host.."
-
-# no validation rules yet so let's just pass it
-echo "PASS"
+echo "Validating the Docker host..."
+(set -x; cd /vagrant/vms/dockerhost && inspec exec $(dirname $0)/validate.d/inspec/)
