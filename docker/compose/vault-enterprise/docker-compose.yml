@@ -1,0 +1,67 @@
+version: '3'
+
+services:
+
+  consul-enterprise0:
+    build: docker/images/consul-enterprise
+    image: local/consul-enterprise
+    entrypoint: >-
+      /usr/local/bin/tini -- /usr/local/bin/consul agent -server -bootstrap -ui -data-dir /var/hashicorp/consul
+      -disable-host-node-id -client 0.0.0.0 -raft-protocol 3
+    ports:
+      - "8500:8500"
+      - "8600:8600"
+
+  consul-enterprise1:
+    build: docker/images/consul-enterprise
+    image: local/consul-enterprise
+    entrypoint: >-
+      /usr/local/bin/tini -- /usr/local/bin/consul agent -server -data-dir /var/hashicorp/consul -disable-host-node-id
+      -client 0.0.0.0 -join consul-enterprise0 -client 0.0.0.0 -raft-protocol 3
+    links:
+      - consul-enterprise0
+
+  consul-enterprise2:
+    build: docker/images/consul-enterprise
+    image: local/consul-enterprise
+    entrypoint: >-
+      /usr/local/bin/tini -- /usr/local/bin/consul agent -server -data-dir /var/hashicorp/consul -disable-host-node-id
+      -client 0.0.0.0 -join consul-enterprise0 -client 0.0.0.0 -raft-protocol 3
+    links:
+      - consul-enterprise0
+
+  vault-enterprise0:
+    build: docker/images/vault-enterprise
+    image: local/vault-enterprise
+    ports:
+      - "8200:8200"
+    links:
+      - consul-enterprise0
+    cap_add:
+      - IPC_LOCK
+
+  vault-enterprise1:
+    build: docker/images/vault-enterprise
+    image: local/vault-enterprise
+    links:
+      - consul-enterprise0
+    cap_add:
+      - IPC_LOCK
+
+  vault-enterprise2:
+    build: docker/images/vault-enterprise
+    image: local/vault-enterprise
+    links:
+      - consul-enterprise0
+    cap_add:
+      - IPC_LOCK
+
+  healthz:
+    image: chef/inspec
+    links:
+      - consul-enterprise0
+      - consul-enterprise1
+      - consul-enterprise2
+      - vault-enterprise0
+      - vault-enterprise1
+      - vault-enterprise2
