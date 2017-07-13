@@ -1,7 +1,5 @@
 #!/bin/bash
 
-: ${PROVISION_VAULT_ENTERPRISE:="false"}
-
 set -eu
 
 echo "Provision the Docker host..."
@@ -10,7 +8,7 @@ echo "Installing packages..."
 (set -x ; apt-get update && apt-get install -y git)
 
 echo "Installing InSpec for system validation...."
-(set -x ; curl https://omnitruck.chef.io/install.sh | sudo bash -s -- -P inspec)
+(set -x ; curl https://omnitruck.chef.io/install.sh | sudo bash -s -- -P inspec && /opt/inspec/embedded/bin/gem install rake)
 
 echo "Make dockerd available on all tcp/2375 on all interfaces..."
 (set -x ;
