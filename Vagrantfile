@@ -23,6 +23,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     dockerhost.vm.provision "shell", path: "vms/dockerhost/validate.sh"
     dockerhost.vm.provision "shell", path: "vms/dockerhost/provision_vault_enterprise.sh"
     dockerhost.vm.provision "shell", path: "vms/dockerhost/validate_vault_enterprise.sh"
+
+    # do the validation again simply to put ht evalidation output at the end of stdout/stderr
+    dockerhost.vm.provision "shell", path: "vms/dockerhost/validate.sh"
+    dockerhost.vm.provision "shell", path: "vms/dockerhost/validate_vault_enterprise.sh"
   end
 
   config.vm.define "ad", autostart: false do |ad|
