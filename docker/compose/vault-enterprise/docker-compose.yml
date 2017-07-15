@@ -5,15 +5,18 @@ services:
   consul-enterprise0:
     build: ../../images/consul-enterprise
     image: local/consul-enterprise
+    container_name: consul-enterprise0
     entrypoint: >-
       /usr/local/bin/tini -- /usr/local/bin/consul agent -server -bootstrap -ui -data-dir /var/hashicorp/consul
       -disable-host-node-id -client 0.0.0.0 -raft-protocol 3
     ports:
       - "8500:8500"
+      - "8600:8600"
 
   consul-enterprise1:
     build: ../../images/consul-enterprise
     image: local/consul-enterprise
+    container_name: consul-enterprise1
     entrypoint: >-
       /usr/local/bin/tini -- /usr/local/bin/consul agent -server -data-dir /var/hashicorp/consul -disable-host-node-id
       -client 0.0.0.0 -join consul-enterprise0 -client 0.0.0.0 -raft-protocol 3
@@ -23,15 +26,37 @@ services:
   consul-enterprise2:
     build: ../../images/consul-enterprise
     image: local/consul-enterprise
+    container_name: consul-enterprise2
     entrypoint: >-
       /usr/local/bin/tini -- /usr/local/bin/consul agent -server -data-dir /var/hashicorp/consul -disable-host-node-id
       -client 0.0.0.0 -join consul-enterprise0 -client 0.0.0.0 -raft-protocol 3
     links:
       - consul-enterprise0
 
-  vault-enterprise0:
+  consul-enterprise3:
+    build: ../../images/consul-enterprise
+    image: local/consul-enterprise
+    container_name: consul-enterprise3
+    entrypoint: >-
+      /usr/local/bin/tini -- /usr/local/bin/consul agent -server -data-dir /var/hashicorp/consul -disable-host-node-id
+      -client 0.0.0.0 -join consul-enterprise0 -client 0.0.0.0 -raft-protocol 3
+    links:
+      - consul-enterprise0
+
+  consul-enterprise4:
+    build: ../../images/consul-enterprise
+    image: local/consul-enterprise
+    container_name: consul-enterprise4
+    entrypoint: >-
+      /usr/local/bin/tini -- /usr/local/bin/consul agent -server -data-dir /var/hashicorp/consul -disable-host-node-id
+      -client 0.0.0.0 -join consul-enterprise0 -client 0.0.0.0 -raft-protocol 3
+    links:
+      - consul-enterprise0
+
+  vault-enterprise4:
     build: ../../images/vault-enterprise
     image: local/vault-enterprise
+    container_name: vault-enterprise0
     ports:
       - "8200:8200"
     links:
@@ -42,6 +67,7 @@ services:
   vault-enterprise1:
     build: ../../images/vault-enterprise
     image: local/vault-enterprise
+    container_name: vault-enterprise1
     links:
       - consul-enterprise0
     cap_add:
@@ -50,6 +76,7 @@ services:
   vault-enterprise2:
     build: ../../images/vault-enterprise
     image: local/vault-enterprise
+    container_name: vault-enterprise2
     links:
       - consul-enterprise0
     cap_add:
