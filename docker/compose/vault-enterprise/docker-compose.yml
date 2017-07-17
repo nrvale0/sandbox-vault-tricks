@@ -53,12 +53,14 @@ services:
     links:
       - consul-enterprise0
 
-  vault-enterprise4:
+  vault-enterprise0:
     build: ../../images/vault-enterprise
     image: local/vault-enterprise
     container_name: vault-enterprise0
     ports:
       - "8200:8200"
+    entrypoint: >-
+      /usr/local/bin/tini -- /usr/local/bin/vault server -config /etc/hashicorp/vault/config.hcl
     links:
       - consul-enterprise0
     cap_add:
@@ -68,6 +70,10 @@ services:
     build: ../../images/vault-enterprise
     image: local/vault-enterprise
     container_name: vault-enterprise1
+    ports:
+      - "8201:8200"
+    entrypoint: >-
+      /usr/local/bin/tini -- /usr/local/bin/vault server -config /etc/hashicorp/vault/config.hcl
     links:
       - consul-enterprise0
     cap_add:
@@ -77,6 +83,10 @@ services:
     build: ../../images/vault-enterprise
     image: local/vault-enterprise
     container_name: vault-enterprise2
+    ports:
+      - "8202:8200"
+    entrypoint: >-
+      /usr/local/bin/tini -- /usr/local/bin/vault server -config /etc/hashicorp/vault/config.hcl
     links:
       - consul-enterprise0
     cap_add:
