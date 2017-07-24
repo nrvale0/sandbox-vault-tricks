@@ -3,8 +3,8 @@ version: '3'
 services:
 
   consul-enterprise0:
-    build: ../../images/consul-enterprise
-    image: local/consul-enterprise
+    build: ../../images/consul-vault-enterprise
+    image: local/consul-vault-enterprise
     container_name: consul-enterprise0
     entrypoint: >-
       /usr/local/bin/tini -- /usr/local/bin/consul agent -server -bootstrap -ui -data-dir /var/hashicorp/consul
@@ -14,8 +14,8 @@ services:
       - "8600:8600"
 
   consul-enterprise1:
-    build: ../../images/consul-enterprise
-    image: local/consul-enterprise
+    build: ../../images/consul-vault-enterprise
+    image: local/consul-vault-enterprise
     container_name: consul-enterprise1
     entrypoint: >-
       /usr/local/bin/tini -- /usr/local/bin/consul agent -server -data-dir /var/hashicorp/consul -disable-host-node-id
@@ -24,8 +24,8 @@ services:
       - consul-enterprise0
 
   consul-enterprise2:
-    build: ../../images/consul-enterprise
-    image: local/consul-enterprise
+    build: ../../images/consul-vault-enterprise
+    image: local/consul-vault-enterprise
     container_name: consul-enterprise2
     entrypoint: >-
       /usr/local/bin/tini -- /usr/local/bin/consul agent -server -data-dir /var/hashicorp/consul -disable-host-node-id
@@ -34,8 +34,8 @@ services:
       - consul-enterprise0
 
   consul-enterprise3:
-    build: ../../images/consul-enterprise
-    image: local/consul-enterprise
+    build: ../../images/consul-vault-enterprise
+    image: local/consul-vault-enterprise
     container_name: consul-enterprise3
     entrypoint: >-
       /usr/local/bin/tini -- /usr/local/bin/consul agent -server -data-dir /var/hashicorp/consul -disable-host-node-id
@@ -44,8 +44,8 @@ services:
       - consul-enterprise0
 
   consul-enterprise4:
-    build: ../../images/consul-enterprise
-    image: local/consul-enterprise
+    build: ../../images/consul-vault-enterprise
+    image: local/consul-vault-enterprise
     container_name: consul-enterprise4
     entrypoint: >-
       /usr/local/bin/tini -- /usr/local/bin/consul agent -server -data-dir /var/hashicorp/consul -disable-host-node-id
@@ -54,8 +54,8 @@ services:
       - consul-enterprise0
 
   vault-enterprise0:
-    build: ../../images/vault-enterprise
-    image: local/vault-enterprise
+    build: ../../images/consul-vault-enterprise
+    image: local/consul-vault-enterprise
     container_name: vault-enterprise0
     ports:
       - "8200:8200"
@@ -67,8 +67,8 @@ services:
       - IPC_LOCK
 
   vault-enterprise1:
-    build: ../../images/vault-enterprise
-    image: local/vault-enterprise
+    build: ../../images/consul-vault-enterprise
+    image: local/consul-vault-enterprise
     container_name: vault-enterprise1
     ports:
       - "8201:8200"
@@ -80,8 +80,8 @@ services:
       - IPC_LOCK
 
   vault-enterprise2:
-    build: ../../images/vault-enterprise
-    image: local/vault-enterprise
+    build: ../../images/consul-vault-enterprise
+    image: local/consul-vault-enterprise
     container_name: vault-enterprise2
     ports:
       - "8202:8200"

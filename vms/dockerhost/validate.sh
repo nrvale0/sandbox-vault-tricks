@@ -1,16 +1,19 @@
 #!/bin/bash
 
-set -eu
+set -u
 
-function onexit {
-    popd > /dev/null 2>&1
+function onerr {
+    echo "Executing cleanup on failure..."
+    popd > /dev/null 2>&1 || true
     exit -1
 }
-trap onexit EXIT
+trap onerr ERR
 
-pushd "$(dirname $0)" > /dev/null 2>&1
+pushd `pwd` > /dev/null 2>&1
+cd /vagrant > /dev/null 2>&1 || cd "$(dirname $0)"
 
 echo "Validating the Docker host..."
-(set -x; inspec exec validate.d/inspec/)
+(set -x; \
+    inspec exec validate.d/inspec)
 
-popd > /dev/null 2>&1
+popd -n > /dev/null 2>&1

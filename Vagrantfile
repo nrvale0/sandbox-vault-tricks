@@ -1,3 +1,4 @@
+# coding: utf-8
 Vagrant.require_version ">= 1.6.0"
 VAGRANTFILE_API_VERSION = "2"
 
@@ -17,25 +18,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     dockerhost.vm.network "forwarded_port", guest: 9000, host: 9000 # portainer
 
     dockerhost.vm.provision "docker" do |docker|
-      docker.pull_images "chef/inspec"
-    end
+    end  
 
-    puts "*".times 80
-    puts "*".times 80
-    puts "Running validation tests for the 'dockerhost' VM..."
-    puts "*".times 80
-    puts "*".times 80
-
-    dockerhost.vm.provision "shell", path: "vms/dockerhost/provision.sh"
-    dockerhost.vm.provision "shell", path: "vms/dockerhost/validate.sh"
+    dockerhost.vm.provision "shell", keep_color: true, path: "vms/dockerhost/provision.sh"
+    dockerhost.vm.provision "shell", keep_color: true, path: "vms/dockerhost/validate.sh"
     
-    dockerhost.vm.provision "shell", path: "docker/compose/vault-enterprise/provision.sh"
-    dockerhost.vm.provision "shell", path: "docker/compose/vault-enterprise/validate.sh"
-
-
-    # do the validation again simply to put ht evalidation output at the end of stdout/stderr
-    dockerhost.vm.provision "shell", path: "vms/dockerhost/validate.sh"
-    dockerhost.vm.provision "shell", path: "docker/compose/vault-enterprise/validate.sh"
+    dockerhost.vm.provision "shell", keep_color: true, path: "docker/compose/vault-enterprise/provision.sh"
+#    dockerhost.vm.provision "shell", keep_color: true, path: "docker/compose/vault-enterprise/validate.sh"
   end
 
   config.vm.define "ad", autostart: false do |ad|
