@@ -7,6 +7,5 @@ end
 
 describe http("http://#{consul_enterprise0_ip}:8500/v1/status/peers") do
   its('status') { should cmp 200 }
-  its('body') { should
   # How would one count the items in the array of peers?
 end
