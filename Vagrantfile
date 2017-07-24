@@ -24,7 +24,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     dockerhost.vm.provision "shell", keep_color: true, path: "vms/dockerhost/validate.sh"
     
     dockerhost.vm.provision "shell", keep_color: true, path: "docker/compose/vault-enterprise/provision.sh"
-#    dockerhost.vm.provision "shell", keep_color: true, path: "docker/compose/vault-enterprise/validate.sh"
+    dockerhost.vm.provision "shell", keep_color: true, path: "docker/compose/vault-enterprise/validate.sh"
   end
 
   config.vm.define "ad", autostart: false do |ad|

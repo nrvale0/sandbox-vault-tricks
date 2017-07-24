@@ -10,10 +10,13 @@ function onerr {
 trap onerr ERR
 
 pushd `pwd` > /dev/null 2>&1
-cd /vagrant > /dev/null 2>&1 || cd "$(dirname $0)"
+cd /vagrant > /dev/null 2>&1 || cd "$(dirname $0)/../../"
+
+ls
+
 
 echo "Validating the Docker host..."
 (set -x; \
-    inspec exec validate.d/inspec)
+    inspec exec vms/dockerhost/validate.d/inspec)
 
 popd -n > /dev/null 2>&1

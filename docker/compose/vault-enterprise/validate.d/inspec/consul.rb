@@ -1,8 +1,12 @@
-containers = %x{docker ps -f "name=consul" --format="{{.Names}}|{{.ID}}" | sort -n}
+consul_enterprise0_ip = %x(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' consul-enterprise0).chomp
 
-puts "\nContainer SUTs:\n"
-puts "#{containers}"
+describe http("http://#{consul_enterprise0_ip}:8500/v1/status/leader") do
+  its('status') { should cmp 200 }
+  its('body') { should include '172.19.0' }
+end
 
-describe command('consul members') do
-  its('exit_status') { should eq 0 }
+describe http("http://#{consul_enterprise0_ip}:8500/v1/status/peers") do
+  its('status') { should cmp 200 }
+  its('body') { should
+  # How would one count the items in the array of peers?
 end
