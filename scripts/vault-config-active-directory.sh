@@ -22,7 +22,8 @@ printf "\nConfiguring LDAP backend...\n"
 (set -ex; 
  vault write auth/ldap/config \
        url="ldap://localhost:3890" \
-       userdn="ou=people,ou=someteam,ou=ad-someteam-dev,dc=ad-someteam-dev,dc=someorg,dc=io" \
+       userdn="cn=Users,dc=example,dc=com" \
+       groupdn="
        groupdn="OU=Groups,OU=someteam,OU=ad-someteam-dev,DC=ad-someteam-dev,DC=someorg,dc=io" \
        groupfilter="(&(objectclass=group)(cn=pg-dba)(member:1.2.840.113556.1.4.1941:={{.UserDN}}))" \
        groupattr="cn" \
