@@ -26,11 +26,4 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     dockerhost.vm.provision "shell", keep_color: true, path: "docker/compose/vault-enterprise/provision.sh"
     dockerhost.vm.provision "shell", keep_color: true, path: "docker/compose/vault-enterprise/validate.sh"
   end
-
-  config.vm.define "ad", autostart: false do |ad|
-    ad.vm.box = "ubuntu/xenial64"
-    ad.vm.provider "virtualbox" do |vb|
-      vb.memory = "4096"
-    end
-  end
 end

@@ -1,0 +1,13 @@
+version: '3'
+services:
+  vault-enterprise-dev0:
+    build: ../../images/consul-vault-enterprise
+    image: local/consul-vault-enterprise
+    hostname: vault-enterprise-dev0
+    container_name: vault-enterprise-dev0
+    ports:
+      - "8200:8200"
+    entrypoint: >-
+      /usr/local/bin/tini -- /usr/local/bin/vault server -dev -dev-listen-address=0.0.0.0:8200 -log-level=debug
+    cap_add:
+      - IPC_LOCK
